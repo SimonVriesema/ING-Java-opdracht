@@ -1,23 +1,51 @@
 package com.ing.zoo;
 
-public class Hippo {
-    public String name;
-    public String helloText;
-    public String eatText;
+/**
+ * The Hippo class represents a hippo animal in the zoo.
+ * It extends the Animal class.
+ */
+public class Hippo extends Animal {
 
-    public Hippo()
-    {
+    /**
+     * Constructs a Hippo object with the given name.
+     *
+     * @param name The name of the hippo.
+     */
+    public Hippo(String name) {
+        super(name);
     }
 
-    public void sayHello()
-    {
-        helloText = "splash";
+    /**
+     * Makes the hippo say hello by printing a splash sound.
+     */
+    @Override
+    public void sayHello() {
+        String helloText = "splash";
         System.out.println(helloText);
     }
 
-    public void eatLeaves()
-    {
-        eatText = "munch munch lovely";
+    /**
+     * Makes the hippo eat leaves by printing a munching sound.
+     */
+    @Override
+    public void eatLeaves() {
+        String eatText = "munch munch lovely";
         System.out.println(eatText);
+    }
+
+    /**
+     * The hippo does not eat meat, so this method is not implemented.
+     */
+    @Override
+    public void eatMeat() {
+        // Not implemented for hippo
+    }
+
+    /**
+     * The hippo does not perform tricks, so this method is not implemented.
+     */
+    @Override
+    public void performTrick() {
+        // Not implemented for hippo
     }
 }

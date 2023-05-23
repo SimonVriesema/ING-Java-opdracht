@@ -4,26 +4,31 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
+/**
+ * The Zoo class represents a zoo where different animals reside.
+ *
+ * @author simon_vriesema
+ */
 public class Zoo {
-    public static void main(String[] args) {
-        // Define an array of commands
-        String[] commands = new String[4];
-        commands[0] = "hello";
-        commands[1] = "give leaves";
-        commands[2] = "give meat";
-        commands[3] = "perform trick";
+    private static final String COMMAND_HELLO = "hello";
+    private static final String COMMAND_GIVE_LEAVES = "give leaves";
+    private static final String COMMAND_GIVE_MEAT = "give meat";
+    private static final String COMMAND_PERFORM_TRICK = "perform trick";
 
-        // Create instances of animal classes
-        Lion henk = new Lion();
-        henk.name = "henk";
-        Hippo elsa = new Hippo();
-        elsa.name = "elsa";
-        Pig dora = new Pig();
-        dora.name = "dora";
-        Tiger wally = new Tiger();
-        wally.name = "wally";
-        Zebra marty = new Zebra();
-        marty.name = "marty";
+    private static Lion henk;
+    private static Hippo elsa;
+    private static Pig dora;
+    private static Tiger wally;
+    private static Zebra marty;
+    private static AnimalCollection animalCollection;
+
+    /**
+     * The main method of the Zoo program.
+     *
+     * @param args The command line arguments.
+     */
+    public static void main(String[] args) {
+        initializeAnimals();
 
         // Read user input
         Scanner scanner = new Scanner(System.in);
@@ -31,44 +36,79 @@ public class Zoo {
         String input = scanner.nextLine();
 
         // Check the input and perform actions accordingly
-        if (input.equals(commands[0])) {
-            // Execute 'hello' command for all animals
-            henk.sayHello();
-            elsa.sayHello();
-            dora.sayHello();
-            wally.sayHello();
-            marty.sayHello();
-        } else if (input.equals(commands[1])) {
-            // Execute 'hello' command for all animals
-            elsa.eatLeaves();
-            dora.eatLeaves();
-            marty.eatLeaves();
-        } else if (input.equals(commands[2])) {
-            // Execute 'hello' command for all animals
-            henk.eatMeat();
-            dora.eatMeat();
-            wally.eatMeat();
-        } else if (input.equals(commands[3])) {
-            // Execute 'hello' command for all animals
-            dora.performTrick();
-            wally.performTrick();
-        } else if (input.equals(commands[0] + " henk")) {
-            // Execute 'hello' command for Lion named 'henk'
-            henk.sayHello();
-        } else if (input.equals(commands[0] + " elsa")) {
-            // Execute 'hello' command for Lion named 'henk'
-            elsa.sayHello();
-        } else if (input.equals(commands[0] + " dora")) {
-            // Execute 'hello' command for Lion named 'henk'
-            dora.sayHello();
-        } else if (input.equals(commands[0] + " wally")) {
-            // Execute 'hello' command for Lion named 'henk'
-            wally.sayHello();
-        } else if (input.equals(commands[0] + " marty")) {
-            // Execute 'hello' command for Lion named 'henk'
-            marty.sayHello();
+        executeCommand(input);
+    }
+
+    /**
+     * Executes the command based on the user input.
+     *
+     * @param input The user input command.
+     */
+    private static void executeCommand(String input) {
+        if (input.equals(COMMAND_HELLO)) {
+            executeHelloCommand();
+        } else if (input.equals(COMMAND_GIVE_LEAVES)) {
+            executeGiveLeavesCommand();
+        } else if (input.equals(COMMAND_GIVE_MEAT)) {
+            executeGiveMeatCommand();
+        } else if (input.equals(COMMAND_PERFORM_TRICK)) {
+            executePerformTrickCommand();
+        } else if (input.startsWith(COMMAND_HELLO + " ")) {
+            // iterate over all animals and check if the name matches
+            for (Animal animal : animalCollection.getAnimals()) {
+                String[] parts = input.split(" ");
+                if (parts.length == 2 && Objects.equals(parts[1], animal.getName().toLowerCase())) {
+                    animal.sayHello();
+                }
+            }
         } else {
             System.out.println("Unknown command: " + input);
         }
+    }
+
+    /**
+     * Initializes the animals in the zoo.
+     */
+    private static void initializeAnimals() {
+        henk = new Lion("henk");
+        elsa = new Hippo("elsa");
+        dora = new Pig("dora");
+        wally = new Tiger("wally");
+        marty = new Zebra("marty");
+
+        animalCollection = new AnimalCollection();
+        animalCollection.addAnimal(henk);
+        animalCollection.addAnimal(elsa);
+        animalCollection.addAnimal(dora);
+        animalCollection.addAnimal(wally);
+        animalCollection.addAnimal(marty);
+    }
+
+    /**
+     * Executes the "hello" command for all animals.
+     */
+    private static void executeHelloCommand() {
+        animalCollection.makeAnimalsSayHello();
+    }
+
+    /**
+     * Executes the "give leaves" command for herbivorous animals.
+     */
+    private static void executeGiveLeavesCommand() {
+        animalCollection.makeHerbivorousAnimalsEat();
+    }
+
+    /**
+     * Executes the "give meat" command for carnivorous animals.
+     */
+    private static void executeGiveMeatCommand() {
+        animalCollection.makeCarnivorousAnimalsEat();
+    }
+
+    /**
+     * Executes the "perform trick" command for animals that can perform tricks.
+     */
+    private static void executePerformTrickCommand() {
+        animalCollection.makeAnimalsPerformTrick();
     }
 }
